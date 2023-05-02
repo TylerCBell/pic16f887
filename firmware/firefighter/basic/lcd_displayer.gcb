@@ -1,0 +1,18 @@
+#CHIP 16F887
+
+#define LCD_IO 4
+#define LCD_speed fast
+#define LCD_RS RD0
+#define LCD_Enable RD2
+#define LCD_RW RD1
+#define LCD_DB4 RD4
+#define LCD_DB5 RD5
+#define LCD_DB6 RD6
+#define LCD_DB7 RD7
+
+CLS
+
+locate 1,0
+Print "Hello World."
+
+End

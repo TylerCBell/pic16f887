@@ -1,0 +1,22 @@
+#CHIP 16F887
+
+Dir RB5 out
+DIr RB4 out
+Dir RB3 out
+Dir RB2 out
+Dir RC0 in
+
+Do Forever
+  RB5 = 1
+  RB4 = 0
+  RB3 = 0
+  RB2 = 1
+
+  if RC0 = 0 then
+    RB5 = 0
+    RB4 = 1
+    RB3 = 1
+    RB2 = 0
+    wait 2 s
+  end if
+Loop

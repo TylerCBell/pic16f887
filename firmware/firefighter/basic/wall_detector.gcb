@@ -1,0 +1,58 @@
+#CHIP 16F887
+
+#define LCD_IO 4
+#define LCD_speed Fast
+#define LCD_RS RD0
+#define LCD_Enable RD2
+#define LCD_RW RD1
+#define LCD_DB4 RD4
+#define LCD_DB5 RD5
+#define LCD_DB6 RD6
+#define LCD_DB7 RD7
+
+Dir RB5 out
+DIr RB4 out
+Dir RB3 out
+Dir RB2 out
+Dir RA0 in
+
+Dim SWx as Byte
+Dim SW as Byte
+
+Do Forever
+
+  SWx = ReadAD( ANA0 )
+  SW = ((6787/(SWx-3))-4)/5
+
+  CLS
+  Print "Wall = "
+  Print SW
+  Wait 100 ms
+
+    RB5 = 1
+    RB4 = 0
+    RB3 = 0
+    RB2 = 1
+
+    if SW > 13 then
+      RB5 = 0
+      RB4 = 0
+      RB3 = 0
+      RB2 = 1
+    end if
+
+    if SW < 13 then
+      RB5 = 1
+      RB4 = 0
+      RB3 = 0
+      RB2 = 0
+    end if
+
+    if SW = 13 then
+      RB5 = 1
+      RB4 = 0
+      RB3 = 0
+      RB2 = 1
+    end if
+
+  Loop

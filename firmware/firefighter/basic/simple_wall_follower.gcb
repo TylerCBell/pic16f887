@@ -1,0 +1,101 @@
+#CHIP 16F887
+
+#define LCD_IO 4
+#define LCD_speed Fast
+#define LCD_RS RD0
+#define LCD_Enable RD2
+#define LCD_RW RD1
+#define LCD_DB4 RD4
+#define LCD_DB5 RD5
+#define LCD_DB6 RD6
+#define LCD_DB7 RD7
+
+Dir RB5 out
+DIr RB4 out
+Dir RB3 out
+Dir RB2 out
+Dir RA0 in
+Dir RA1 in
+Dir RA2 in
+
+Dim FWx as Byte
+Dim FW as Byte
+Dim SWx as Byte
+Dim SW as Byte
+
+RB5 = 0
+RB4 = 0
+RB3 = 0
+RB2 = 0
+RB1 = 0
+Wait 5 s
+
+Main:
+  Do Forever
+    FWx = ReadAD( ANA1 )
+    FW = ((6787/(FWx-3))-4)/5
+    SWx = ReadAD( ANA0 )
+    SW = ((6787/(SWx-3))-4)/5
+
+    CLS
+    Locate 0,0
+    Print "FW = "
+    Print FW
+    Locate 0,8
+    Print "SW = "
+    Print SW
+    Wait 30 ms
+
+    RB5 = 1
+    RB4 = 0
+    RB3 = 0
+    RB2 = 1
+    RB1 = 0
+
+    if SW > 20 and SW < 40 then gosub TooFar
+    if SW < 17 and SW > 5 then gosub TooClose
+    if FW < 13 and FW > 5 then gosub Back
+  Loop
+
+TooClose:
+  RB5 = 1
+  RB4 = 0
+  RB3 = 0
+  RB2 = 0
+  RB1 = 0
+Return
+
+TooFar:
+  RB5 = 0
+  RB4 = 0
+  RB3 = 0
+  RB2 = 1
+  RB1 = 0
+Return
+
+Back:
+  RB5 = 0
+  RB4 = 1
+  RB3 = 1
+  RB2 = 0
+  RB1 = 0
+
+  FWx = ReadAD( ANA1 )
+  FW = ((6787/(FWx-3))-4)/5
+  SWx = ReadAD( ANA0 )
+  SW = ((6787/(SWx-3))-4)/5
+
+  if FW < 13 and FW > 5 or FW < 15 and SW > 35 then gosub Back
+
+  RB5 = 1
+  RB4 = 0
+  RB3 = 1
+  RB2 = 0
+  RB1 = 0
+  Wait 300 ms
+
+  FWx = ReadAD( ANA1 )
+  FW = ((6787/(FWx-3))-4)/5
+  SWx = ReadAD( ANA0 )
+  SW = ((6787/(SWx-3))-4)/5
+Return

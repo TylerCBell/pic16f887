@@ -1,0 +1,20 @@
+#CHIP 16F887
+
+Dir RB5 out
+DIr RB4 out
+Dir RB3 out
+Dir RB2 out
+
+Do Forever
+  RB5 = 1
+  RB4 = 0
+  RB3 = 0
+  RB2 = 1
+  Wait 1500 ms
+
+  RB5 = 0
+  RB4 = 1
+  RB3 = 1
+  RB2 = 0
+  Wait 1500 ms
+Loop

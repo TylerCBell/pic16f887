@@ -1,0 +1,33 @@
+#CHIP 16F887
+
+#define LCD_IO 4
+#define LCD_speed Fast
+#define LCD_RS RD0
+#define LCD_Enable RD2
+#define LCD_RW RD1
+#define LCD_DB4 RD4
+#define LCD_DB5 RD5
+#define LCD_DB6 RD6
+#define LCD_DB7 RD7
+
+Dir RB1 out
+Dir RA2 in
+
+Dim Flame as Byte
+
+RB5 = 0
+RB4 = 0
+RB3 = 0
+RB2 = 0
+RB1 = 0
+Wait 5 s
+
+Do Forever
+  Flame = ReadAD( ANA2 )
+
+  CLS
+  Locate 1,0
+  Print "F = "
+  Print Flame
+  Wait 30 ms
+Loop

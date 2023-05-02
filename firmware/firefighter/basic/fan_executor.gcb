@@ -1,0 +1,7 @@
+#CHIP 16F887
+
+Dir RB1 out
+
+Do forever
+  RB1 = 1
+loop
